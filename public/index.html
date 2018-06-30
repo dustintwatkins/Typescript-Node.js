@@ -1,0 +1,113 @@
+<html ng-app = 'myApp'>
+<head>
+  <title>Express</title>
+  <!--<link rel="stylesheet" href="/stylesheets/style.css">-->
+  <script src = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js'></script>
+    <script data-require="angular.js@*" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.1/angular.js"></script>
+    <!--<script src = "javascripts/controller.js"></script>-->
+</head>
+
+<body>
+<div ng-controller = 'appCtrl' class = 'outer_container'>
+  <div class = 'non_command'>
+      <h1>Phase 0.5</h1>
+  <form>
+    To Lowercase: <input type="text" ng-model = 'lcase_ang' id="lcase_input">
+    <input type="submit" value="Lowercase" ng-click = 'tolowercase()' id = 'lcase_btn'><br>
+    Trim: <input type="text" ng-model="trim_input">
+    <input type="submit" value="Trim" ng-click = 'trim()' id ='trim_btn'><br>
+    Parse Integer: <input type="text" ng-model="parseint_input">
+    <input type="submit" value="Parse" ng-click = 'parseint()' id = 'parseint_btn'>
+  </form>
+  </div>
+  <div class = 'command'>
+  Command: <input type="text" ng-model = 'cmd_input'>
+  <form action="">
+    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'LowerCase'>To Lowercase<br>
+    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'Trim'>Trim<br>
+    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'ParseInt'>Parse Integer
+  </form>
+  <input type="submit" value="Command" ng-click = 'command()'>
+  </div>
+</div>
+</body>
+<script>var app = angular.module('myApp', []);
+app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
+    console.log('hello from angular!');
+    $http.get('/').then(getDoneCallback, failCallback);
+
+    function getDoneCallback(res){
+
+    }
+
+    function doneCallback(res) {
+        alert('Your new string: ' + JSON.stringify(res.data.str));
+    }
+
+    function parseintCallback(res){
+        console.log(JSON.stringify(res.data));
+        if(res.data.errorString === '')
+          alert('Your string as a number: ' + res.data.num);
+        else
+            alert('There was an error parsing your int. Please enter a valid number');
+    }
+
+    function cmdCallback(res){
+        if(res.data.type === 'ParseInt')
+            parseintCallback(res)
+        else
+            doneCallback(res);
+    }
+
+    function failCallback(err) {
+        console.log('unsuccessful in receiving JSON object from server');
+        console.log(err.message);
+    }
+    function checkInput(input) {
+        if (input === undefined) {
+            alert('Please enter text into the desired field');
+            return false;
+        }
+        else {
+            var params = {
+                str: input,
+                type: ''
+            };
+            return params;
+        }
+    }
+    $scope.tolowercase = function () {
+        console.log("lcase pressed");
+        console.log($scope.lcase_ang);
+        var params = checkInput($scope.lcase_ang);
+        if (params) {
+            $http.post('/toLowerCase', params).then(doneCallback, failCallback);
+        }
+    };
+    $scope.trim = function () {
+        console.log($scope.trim_input);
+        var params = checkInput($scope.trim_input);
+        if (params)
+            $http.post('/trim', params).then(doneCallback, failCallback);
+    };
+    $scope.parseint = function () {
+        console.log($scope.parseint_input);
+        var params = checkInput($scope.parseint_input);
+        if (params)
+            $http.post('/parseInt', params).then(parseintCallback, failCallback);
+    };
+    $scope.command = function () {
+        let params = checkInput($scope.cmd_input);
+        if(params){
+            params = setCmdType(params);
+            $http.post('/command', params).then(cmdCallback, failCallback);
+        }
+    };
+
+    function setCmdType(params){
+        params.type = $scope.radio_btn;
+        return params;
+    }
+}]);
+</script>
+</html>
