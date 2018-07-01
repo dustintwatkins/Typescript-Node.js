@@ -8,26 +8,38 @@
 </head>
 
 <body>
+<div class = 'nav_bar'>
+<ul>
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="https://github.com/dustintwatkins/">Github Profile</a></li>
+    <li><a href="https://github.com/dustintwatkins/Typescript-Node.js">Github Project Link</a></li>
+    <li><a href="https://www.linkedin.com/in/dustin-watkins-298648105/">LinkedIn</a></li>
+</ul>
+</div>
 <div ng-controller = 'appCtrl' class = 'outer_container'>
-  <div class = 'non_command'>
-      <h1>Phase 0.5</h1>
-  <form>
-    To Lowercase: <input type="text" ng-model = 'lcase_ang' id="lcase_input">
-    <input type="submit" value="Lowercase" ng-click = 'tolowercase()' id = 'lcase_btn'><br>
-    Trim: <input type="text" ng-model="trim_input">
-    <input type="submit" value="Trim" ng-click = 'trim()' id ='trim_btn'><br>
-    Parse Integer: <input type="text" ng-model="parseint_input">
-    <input type="submit" value="Parse" ng-click = 'parseint()' id = 'parseint_btn'>
-  </form>
+    <h1 id = 'heading'>String Processor in Typescript</h1>
+    <div class = 'non_command'>
+        <h2>Non-Command Method</h2>
+      <form>
+        To Lowercase: <input type="text" ng-model = 'lcase_ang' id="lcase_input">
+        <input type="submit" value="Lowercase" ng-click = 'tolowercase()' id = 'lcase_btn'><br>
+        Trim: <input type="text" ng-model="trim_input">
+        <input type="submit" value="Trim" ng-click = 'trim()' id ='trim_btn'><br>
+        Parse Integer: <input type="text" ng-model="parseint_input">
+        <input type="submit" value="Parse" ng-click = 'parseint()' id = 'parseint_btn'>
+      </form>
   </div>
   <div class = 'command'>
-  Command: <input type="text" ng-model = 'cmd_input'>
-  <form action="">
-    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'LowerCase'>To Lowercase<br>
-    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'Trim'>Trim<br>
-    <input type="radio" name="cmd" ng-model = "radio_btn" value = 'ParseInt'>Parse Integer
-  </form>
-  <input type="submit" value="Command" ng-click = 'command()'>
+      <h2>Command Method</h2>
+      <div class = 'command_form'>
+          String: <input type="text" ng-model = 'cmd_input'>
+          <form action="">
+            <input type="radio" name="cmd" ng-model = "radio_btn" value = 'LowerCase'>To Lowercase<br>
+            <input type="radio" name="cmd" ng-model = "radio_btn" value = 'Trim'>Trim<br>
+            <input type="radio" name="cmd" ng-model = "radio_btn" value = 'ParseInt'>Parse Integer
+          </form>
+          <input type="submit" value="Command" ng-click = 'command()'>
+      </div>
   </div>
 </div>
 </body>
@@ -37,7 +49,7 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('/').then(getDoneCallback, failCallback);
 
     function getDoneCallback(res){
-
+        //nothing to see here...
     }
 
     function doneCallback(res) {
@@ -115,4 +127,47 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 }]);
 </script>
+<style>
+    h1{
+        color: darkred;
+        text-align: center
+    }
+    .outer_container{
+        margin-top: 5%;
+        text-align: center;
+    }
+    .non_command {
+        margin-left: 20%;
+        float:left;
+    }
+    .command_form{
+
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li a:hover:not(.active) {
+        background-color: #111;
+    }
+</style>
 </html>
