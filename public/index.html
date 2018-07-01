@@ -41,6 +41,9 @@
           <input type="submit" value="Command" ng-click = 'command()'>
       </div>
   </div>
+    <div class="footer">
+        <p>Site By: Dustin Watkins 2018</p>
+    </div>
 </div>
 </body>
 <script>var app = angular.module('myApp', []);
@@ -168,6 +171,15 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
 
     li a:hover:not(.active) {
         background-color: #111;
+    }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: slategrey;
+        color: white;
+        text-align: center;
     }
 </style>
 </html>
