@@ -25,9 +25,8 @@ export class GenericCommand<T> implements ICommand{
 
     public execute():void{
         try{
-          console.log('executing...');
           this._classObj.processString();
-          return this._classObj.str;
+          return this._classObj;
         } catch(exception){
             console.log('error');
         }

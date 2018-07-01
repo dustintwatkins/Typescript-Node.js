@@ -58,12 +58,8 @@ class App {
             let type = req.body.type;
 
             let cmdObj = new GenericCommand(type, str);
-
-            let obj = {
-                str: cmdObj.execute(),
-                type:type
-            };
-
+            let obj = cmdObj.execute();
+            console.log(obj);
             res.json(obj);
         });
 

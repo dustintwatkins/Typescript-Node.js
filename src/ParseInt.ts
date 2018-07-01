@@ -7,6 +7,7 @@ export class ParseInt implements IStringProcessor{
     private num: number;
     public res: Result;
     public errorString: string;
+    private type = 'ParseInt';
 
     constructor(word: string){
         this.str = word;

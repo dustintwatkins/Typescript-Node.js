@@ -45,6 +45,7 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 
     function parseintCallback(res){
+        console.log('parse');
         console.log(JSON.stringify(res.data));
         if(res.data.errorString === '')
           alert('Your string as a number: ' + res.data.num);
@@ -54,7 +55,7 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
 
     function cmdCallback(res){
         if(res.data.type === 'ParseInt')
-            parseintCallback(res)
+            parseintCallback(res);
         else
             doneCallback(res);
     }
@@ -99,8 +100,12 @@ app.controller('appCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.command = function () {
         let params = checkInput($scope.cmd_input);
         if(params){
-            params = setCmdType(params);
-            $http.post('/command', params).then(cmdCallback, failCallback);
+            if($scope.radio_btn !== undefined){
+                params = setCmdType(params);
+                $http.post('/command', params).then(cmdCallback, failCallback);
+            }
+            else
+                alert('Please select one of the string processor methods');
         }
     };
 
